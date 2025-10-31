@@ -759,7 +759,7 @@ write_message(int socket, struct message* msg)
       }
       else
       {
-         pgexporter_log_debug("Error %d - %zd/%zd (%zd) - %d/%s",
+         pgexporter_log_error("Error %d - %zd/%zd (%zd) - %d/%s",
                               socket,
                               numbytes, totalbytes, msg->length,
                               errno, strerror(errno));
@@ -777,6 +777,8 @@ write_message(int socket, struct message* msg)
       }
    }
    while (keep_write);
+
+   pgexporter_backtrace();
 
    return MESSAGE_STATUS_ERROR;
 }
